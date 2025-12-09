@@ -23,8 +23,6 @@ Implemented basic maze validation to ensure the maze is solvable before attempti
 
 Add position finding to locate the start coordinates in the maze.
 
-# Development Log - CS4337 Project 2
-
 ## Iteration 2: Position Finding
 
 **Date:** December 8, 2025 | 8:00 pm
@@ -41,12 +39,6 @@ Added ability to find positions in the maze and access cells at specific coordin
 - `in_bounds/3` - Verify position is within maze boundaries
 - `is_valid_position/3` - Check if position is in bounds and not a wall
 
-### Concepts Used
-
-- Nested recursion for 2D search (rows then columns)
-- 0-indexed coordinates matching Prolog's `nth0/3`
-- Combining predicates for complex validation
-
 ### Testing
 
 - ✅ Correctly finds start at various positions
@@ -57,3 +49,37 @@ Added ability to find positions in the maze and access cells at specific coordin
 ### Next Step
 
 Implement movement predicates for up/down/left/right actions.
+
+## Iteration 3: Movement System
+
+**Date:** December 9, 2025 | 5:10 pm
+
+### Implementations
+
+Implemented action system for moving through the maze.
+
+### Key Predicates
+
+- `move/5` - Calculate new position from current position and action (up/down/left/right)
+- `is_valid_move/4` - Verify a move is legal (in bounds and not hitting a wall)
+
+### Implementation Details
+
+Each action modifies coordinates differently:
+
+- `up` - Row decreases (Row - 1)
+- `down` - Row increases (Row + 1)
+- `left` - Column decreases (Col - 1)
+- `right` - Column increases (Col + 1)
+
+The `move/5` predicate has 4 rules (one per action) using pattern matching.
+
+### Testing
+
+- ✅ Movement calculations work correctly for all directions
+- ✅ `is_valid_move` correctly rejects moves into walls
+- ✅ `is_valid_move` correctly rejects moves out of bounds
+
+### Next Step
+
+Implement depth-first search pathfinding algorithm to

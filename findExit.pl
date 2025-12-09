@@ -1,12 +1,13 @@
-% Iteration 2: Position Finding and Cell Access
-% Adds ability to find positions in maze and access cells at coordinates
-% New predicates: find_start/3, find_in_maze/4, get_cell/4, in_bounds/3, is_valid_position/3
+% Iteration 3: Movement System
+% Implements movement predicates for navigating the maze
+% New predicates: move/5, is_valid_move/4
 
 find_exit(Maze, _Actions) :-
     validate_maze(Maze),
-    find_start(Maze, StartRow, StartCol),
-    format('Start at (~w, ~w)~n', [StartRow, StartCol]),
-    fail. % Just a block here for now
+    find_start(Maze, Row, Col),
+    move(Row, Col, right, NewRow, NewCol),
+    format('Move right: (~w,~w) -> (~w,~w)~n', [Row, Col, NewRow, NewCol]),
+    fail.
 
 validate_maze(Maze) :-
     flatten(Maze, Flat),
@@ -58,3 +59,19 @@ is_valid_position(Maze, Row, Col) :-
     in_bounds(Maze, Row, Col),
     get_cell(Maze, Row, Col, Cell),
     Cell \= w.
+
+move(Row, Col, up, NewRow, Col) :-
+    NewRow is Row - 1.
+
+move(Row, Col, down, NewRow, Col) :-
+    NewRow is Row + 1.
+
+move(Row, Col, left, Row, NewCol) :-
+    NewCol is Col - 1.
+
+move(Row, Col, right, Row, NewCol) :-
+    NewCol is Col + 1.
+
+is_valid_move(Maze, Row, Col, Action) :-
+    move(Row, Col, Action, NewRow, NewCol),
+    is_valid_position(Maze, NewRow, NewCol).
