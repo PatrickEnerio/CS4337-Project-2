@@ -83,3 +83,46 @@ The `move/5` predicate has 4 rules (one per action) using pattern matching.
 ### Next Step
 
 Implement depth-first search pathfinding algorithm to
+
+# Development Log - CS4337 Project 2
+
+## Iteration 4: Depth-First Search Pathfinding
+
+**Date:** December 9, 2025 | 10:46 pm
+
+### Implementation
+
+Implemented complete maze-solving algorithm using depth-first search with backtracking.
+
+### Key Predicates
+
+- `solve_maze/5` - Core pathfinding algorithm with visited tracking
+- `is_exit/3` - Check if current position is an exit
+
+### Implementation Details
+
+**Base case:** If current position is an exit, return empty action list (done!)
+
+**Recursive case:**
+
+1. Check position hasn't been visited (avoid loops)
+2. Try each action (up/down/left/right) via backtracking
+3. Validate the move is legal
+4. Recursively solve from new position
+5. Add current position to visited list
+
+The algorithm naturally tries all possible paths via Prolog's backtracking until it finds a solution.
+
+### How DFS Works Here
+
+- Prolog tries actions in order (up, down, left, right)
+- If a path fails, it backtracks and tries the next action
+- Visited list prevents infinite loops
+- First solution found is returned
+
+### Testing
+
+- ✅ `simple_map`: Solves `[[s,f,e]]` → `[right, right]`
+- ✅ `basic_map`: Finds path through more complex maze
+- ✅ Invalid mazes correctly fail
+- ✅ Impossible mazes (all exits blocked) fail

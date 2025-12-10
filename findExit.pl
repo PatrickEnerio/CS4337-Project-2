@@ -1,13 +1,11 @@
-% Iteration 3: Movement System
-% Implements movement predicates for navigating the maze
-% New predicates: move/5, is_valid_move/4
+% Iteration 4: Depth-First Search Pathfinding
+% Implements complete maze solving using DFS with backtracking
+% New predicates: solve_maze/5, is_exit/3
 
-find_exit(Maze, _Actions) :-
+find_exit(Maze, Actions) :-
     validate_maze(Maze),
-    find_start(Maze, Row, Col),
-    move(Row, Col, right, NewRow, NewCol),
-    format('Move right: (~w,~w) -> (~w,~w)~n', [Row, Col, NewRow, NewCol]),
-    fail.
+    find_start(Maze, StartRow, StartCol),
+    solve_maze(Maze, StartRow, StartCol, [], Actions).
 
 validate_maze(Maze) :-
     flatten(Maze, Flat),
@@ -75,3 +73,15 @@ move(Row, Col, right, Row, NewCol) :-
 is_valid_move(Maze, Row, Col, Action) :-
     move(Row, Col, Action, NewRow, NewCol),
     is_valid_position(Maze, NewRow, NewCol).
+
+is_exit(Maze, Row, Col) :-
+    get_cell(Maze, Row, Col, e).
+
+solve_maze(Maze, Row, Col, _, []) :-
+    is_exit(Maze, Row, Col).
+
+solve_maze(Maze, Row, Col, Visited, [Action|RestActions]) :-
+    \+ member((Row, Col), Visited),
+    move(Row, Col, Action, NewRow, NewCol),
+    is_valid_position(Maze, NewRow, NewCol),
+    solve_maze(Maze, NewRow, NewCol, [(Row, Col)|Visited], RestActions).
